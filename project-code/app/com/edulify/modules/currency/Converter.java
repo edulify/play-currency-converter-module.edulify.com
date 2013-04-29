@@ -30,12 +30,16 @@ public class Converter {
   private static Double withGetExchangeRates(final Double value, String from, String to) {
     String url = String.format("http://www.getexchangerates.com/api/latest.json");
     WS.Response wsResponse = WS.url(url).get().get(10000l);
+
     JsonNode jsonResponse  = wsResponse.asJson().get(0);
+    if (jsonResponse == null) {
+      throw new CommunicationErrorException();
+    }
     JsonNode fromRate = jsonResponse.get(from.toUpperCase());
     JsonNode toRate   = jsonResponse.get(to.toUpperCase());
 
     if (fromRate == null || toRate == null) {
-      return null;
+      throw new InvalidCurrencyException();
     }
 
     double exchangeRate = new Double(new String(toRate.getTextValue())) /

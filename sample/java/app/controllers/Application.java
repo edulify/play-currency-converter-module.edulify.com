@@ -5,7 +5,7 @@ import play.mvc.*;
 
 import views.html.*;
 
-import utils.Conversor;
+import utils.Rates;
 
 public class Application extends Controller {
 
@@ -16,7 +16,7 @@ public class Application extends Controller {
   public static Result convert(String from, String to) {
     String conversion = String.format("1%s = %s%s",
                                       from,
-                                      Conversor.convert(1.0, from, to),
+                                      Rates.convert(1.0, from, to),
                                       to);
     return ok(conversion);
   }

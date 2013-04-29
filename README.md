@@ -6,7 +6,42 @@ Currently, the module is using the [Get Exchange Rates](http://www.getexchangera
 
 ## How to use
 
-In order to use this module, its enough to import it in your class and use the static method `Converter.convert`:
+### Configuring
+
+The first step is include the sitemapper in your dependencies list, in `Build.scala` file:
+
+```
+import sbt._
+import Keys._
+import play.Project._
+
+object ApplicationBuild extends Build {
+
+  val appName         = "currency-converter-sample"
+  val appVersion      = "1.0-SNAPSHOT"
+
+  val appDependencies = Seq(
+    // Add your project dependencies here,
+    javaCore,
+    javaJdbc,
+    javaEbean,
+    "com.edulify" % "currency-converter_2.10" % "1.1.1
+  )
+
+  val main = play.Project(appName, appVersion, appDependencies).settings(
+    // Add your own project settings here
+    resolvers += Resolver.url("sitemapper repository", url("http://blabluble.github.com/modules/releases/"))(Resolver.ivyStylePatterns)
+  )
+
+}
+
+```
+
+Don't forget to add the resolver to your list of resolvers, or it won't work!
+
+### Using
+
+To use this module, its enough to import it in your class and use the static method `Converter.convert`:
 
 ```java
 import com.edulify.modules.currency.Converter;

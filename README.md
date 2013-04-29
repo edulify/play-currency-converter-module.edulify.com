@@ -29,3 +29,9 @@ public class Application {
 This method, as shown in the example, should raise two exceptions:
 - `InvalidCurrencyException`: thrown when the currency code is not valid for the service.
 - `CommuncationErrorException`: thrown when the service returns an invalid json.
+
+## About caching
+
+This class saves a cache of the request made for the service. The default cache time is 60 seconds, but this time can be changed using the method `setCacheTime(long milliseconds)`.
+
+Also, you can set cache off, by calling the method `useCache(false)`.

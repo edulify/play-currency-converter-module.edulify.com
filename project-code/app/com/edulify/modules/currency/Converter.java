@@ -3,6 +3,9 @@ package com.edulify.modules.currency;
 import static play.mvc.Controller.async;
 import static play.mvc.Controller.ok;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,11 +34,11 @@ public class Converter {
     Converter.cacheTTL = seconds;
   }
 
-  public static Double convert(final Double value, String from, String to) {
+  public static BigDecimal convert(final BigDecimal value, String from, String to) {
     return convert(value, from, to, Source.GET_EXCHANGE_RATES);
   }
 
-  public static Double convert(final Double value, String from, String to,  Source source) {
+  public static BigDecimal convert(final BigDecimal value, String from, String to,  Source source) {
     if (source.equals(Source.GET_EXCHANGE_RATES)) {
       return withGetExchangeRates(value, from, to);
     }
@@ -45,7 +48,6 @@ public class Converter {
 
   private static WS.Response getExchangeRates() {
     String cacheKey = Source.GET_EXCHANGE_RATES.toString();
-    play.Logger.debug("key: " + cacheKey);
     WS.Response wsResponse = (WS.Response) Cache.get(cacheKey);
     if (!useCache || wsResponse == null) {
       String url = String.format("http://www.getexchangerates.com/api/latest.json");
@@ -56,7 +58,7 @@ public class Converter {
     return wsResponse;
   }
 
-  private static Double withGetExchangeRates(final Double value, String from, String to) {
+  private static BigDecimal withGetExchangeRates(final BigDecimal value, String from, String to) {
     WS.Response wsResponse = getExchangeRates();
 
     JsonNode jsonResponse  = wsResponse.asJson().get(0);
@@ -71,9 +73,17 @@ public class Converter {
       throw new InvalidCurrencyException();
     }
 
-    double exchangeRate = new Double(new String(toRate.getTextValue())) /
-                          new Double(new String(fromRate.getTextValue()));
+    BigDecimal fromRateBD = null;
+    BigDecimal toRateBD   = null;
+    try {
+      fromRateBD = new BigDecimal(fromRate.getTextValue().trim());
+      toRateBD   = new BigDecimal(toRate.getTextValue().trim());
+    } catch (NumberFormatException ex) {
+      throw new CommunicationErrorException();
+    }
 
-    return value * exchangeRate;
+    BigDecimal exchangeRate = toRateBD.divide(fromRateBD, 3, RoundingMode.HALF_EVEN); // precision: 3 decimals
+
+    return value.multiply(exchangeRate).setScale(3, RoundingMode.HALF_EVEN);
   }
 }

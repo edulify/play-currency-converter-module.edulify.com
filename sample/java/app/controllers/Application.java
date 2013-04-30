@@ -1,5 +1,7 @@
 package controllers;
 
+import java.math.BigDecimal;
+
 import play.*;
 import play.mvc.*;
 
@@ -16,7 +18,7 @@ public class Application extends Controller {
   public static Result convert(String from, String to) {
     String conversion = String.format("1%s = %s%s",
                                       from,
-                                      Rates.convert(1.0, from, to),
+                                      Rates.convert(new BigDecimal(1.0), from, to),
                                       to);
     return ok(conversion);
   }

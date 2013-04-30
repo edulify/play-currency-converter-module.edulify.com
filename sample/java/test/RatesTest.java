@@ -2,6 +2,8 @@ package test;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Currency;
+import java.util.Locale;
 
 import org.fest.assertions.Assertions;
 import org.junit.AfterClass;
@@ -52,6 +54,15 @@ public class RatesTest {
 
     Assertions.assertThat(brl_usd.setScale(5, RoundingMode.HALF_EVEN))
               .isEqualTo(new BigDecimal(1).divide(usd_brl, 5, RoundingMode.HALF_EVEN));
+  }
+
+  @Test
+  public void should_return_same_values_for_string_based_and_currency_based_calls() {
+    Currency from = Currency.getInstance("USD");
+    Currency to   = Currency.getInstance("BRL");
+    BigDecimal v  = new BigDecimal(3);
+
+    Assertions.assertThat(Rates.convert(v, from, to)).isEqualTo(Rates.convert(v, "usd", "brl"));
   }
 
 }

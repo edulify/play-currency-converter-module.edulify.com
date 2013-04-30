@@ -6,6 +6,7 @@ import static play.mvc.Controller.ok;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.util.Currency;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,6 +53,18 @@ public class Converter {
 
     return null;
   }
+
+
+
+  public static BigDecimal convert(final BigDecimal value, Currency from, Currency to) {
+    return convert(value, from.getCurrencyCode(), to.getCurrencyCode());
+  }
+
+  public static BigDecimal convert(final BigDecimal value, Currency from, Currency to, Source source) {
+    return convert(value, from.getCurrencyCode(), to.getCurrencyCode(), source);
+  }
+
+
 
   private static WS.Response getExchangeRates() {
     String cacheKey = Source.GET_EXCHANGE_RATES.toString();

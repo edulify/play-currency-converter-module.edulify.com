@@ -1,6 +1,7 @@
 package utils;
 
 import java.math.BigDecimal;
+import java.util.Currency;
 
 import com.edulify.modules.currency.Converter;
 
@@ -11,6 +12,16 @@ public class Rates {
 
   public static BigDecimal convert(BigDecimal value, String from, String to) {
     Converter.setCacheTime(5);
+    try {
+      return Converter.convert(value, from, to);
+    } catch (InvalidCurrencyException ex) {
+      return new BigDecimal(0.0);
+    } catch (CommunicationErrorException ex) {
+      return null;
+    }
+  }
+
+  public static BigDecimal convert(BigDecimal value, Currency from, Currency to) {
     try {
       return Converter.convert(value, from, to);
     } catch (InvalidCurrencyException ex) {

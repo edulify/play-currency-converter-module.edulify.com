@@ -40,7 +40,9 @@ public class RatesTest {
     BigDecimal usd_eur = Rates.convert(new BigDecimal(1.0), "usd", "eur");
     BigDecimal brl_eur = Rates.convert(new BigDecimal(1.0), "brl", "eur");
 
-    Assertions.assertThat(brl_usd.multiply(usd_eur).setScale(3, RoundingMode.HALF_EVEN)).isEqualTo(brl_eur);
+    Assertions.assertThat(brl_usd.multiply(usd_eur)
+                                 .setScale(5, RoundingMode.HALF_EVEN))
+              .isEqualTo(brl_eur.setScale(5, RoundingMode.HALF_EVEN));
   }
 
   @Test
@@ -48,7 +50,8 @@ public class RatesTest {
     BigDecimal brl_usd = Rates.convert(new BigDecimal(1.0), "brl", "usd");
     BigDecimal usd_brl = Rates.convert(new BigDecimal(1.0), "usd", "brl");
 
-    Assertions.assertThat(brl_usd).isEqualTo(new BigDecimal(1).divide(usd_brl, 3, RoundingMode.HALF_EVEN));
+    Assertions.assertThat(brl_usd.setScale(5, RoundingMode.HALF_EVEN))
+              .isEqualTo(new BigDecimal(1).divide(usd_brl, 5, RoundingMode.HALF_EVEN));
   }
 
 }

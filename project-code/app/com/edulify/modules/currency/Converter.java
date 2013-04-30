@@ -25,6 +25,7 @@ public class Converter {
 
   private static boolean useCache = true;
   private static int cacheTTL = 60;
+  private static int precision = 100;
 
   public static void useCache(boolean useCache) {
     Converter.useCache = useCache;
@@ -33,6 +34,12 @@ public class Converter {
   public static void setCacheTime(int seconds) {
     Converter.cacheTTL = seconds;
   }
+
+  public static void setPrecision(int precision) {
+    Converter.precision = precision;
+  }
+
+
 
   public static BigDecimal convert(final BigDecimal value, String from, String to) {
     return convert(value, from, to, Source.GET_EXCHANGE_RATES);
@@ -82,8 +89,8 @@ public class Converter {
       throw new CommunicationErrorException();
     }
 
-    BigDecimal exchangeRate = toRateBD.divide(fromRateBD, 3, RoundingMode.HALF_EVEN); // precision: 3 decimals
+    BigDecimal exchangeRate = toRateBD.divide(fromRateBD, Converter.precision, RoundingMode.HALF_EVEN);
 
-    return value.multiply(exchangeRate).setScale(3, RoundingMode.HALF_EVEN);
+    return value.multiply(exchangeRate).setScale(Converter.precision, RoundingMode.HALF_EVEN);
   }
 }

@@ -1,11 +1,30 @@
 package test;
 
 import org.fest.assertions.Assertions;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import utils.Rates;
 
+import play.test.Helpers;
+import play.test.FakeApplication;
+
 public class RatesTest {
+
+  protected static FakeApplication app;
+
+  @BeforeClass
+  public static void startApp() {
+    app = Helpers.fakeApplication();
+    Helpers.start(app);
+  }
+
+  @AfterClass
+  public static void stopApp() {
+    Helpers.stop(app);
+    System.out.println();
+  }
 
   @Test
   public void should_return_zero_when_currency_code_is_not_valid() {

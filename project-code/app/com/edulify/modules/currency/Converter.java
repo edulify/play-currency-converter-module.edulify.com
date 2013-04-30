@@ -13,6 +13,7 @@ import java.util.Map;
 
 import org.codehaus.jackson.JsonNode;
 
+import play.Play;
 import play.cache.Cache;
 import play.libs.F.Function;
 import play.libs.WS;
@@ -24,9 +25,9 @@ public class Converter {
     GET_EXCHANGE_RATES
   }
 
-  private static boolean useCache = true;
-  private static int cacheTTL = 60;
-  private static int precision = 100;
+  protected static boolean useCache = Play.application().configuration().getBoolean("converter.useCache", true);
+  protected static int cacheTTL     = Play.application().configuration().getInt("converter.cacheTTL", 60);
+  protected static int precision    = Play.application().configuration().getInt("converter.precision", 100);
 
   public static void useCache(boolean useCache) {
     Converter.useCache = useCache;
@@ -66,7 +67,7 @@ public class Converter {
 
 
 
-  private static WS.Response getExchangeRates() {
+  protected static WS.Response getExchangeRates() {
     String cacheKey = Source.GET_EXCHANGE_RATES.toString();
     WS.Response wsResponse = (WS.Response) Cache.get(cacheKey);
     if (!useCache || wsResponse == null) {

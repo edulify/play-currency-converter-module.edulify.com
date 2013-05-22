@@ -67,22 +67,21 @@ public class Converter {
 
 
 
-  protected static WS.Response getExchangeRates() {
+  protected static JsonNode getExchangeRates() {
     String cacheKey = Source.GET_EXCHANGE_RATES.toString();
-    WS.Response wsResponse = (WS.Response) Cache.get(cacheKey);
-    if (!useCache || wsResponse == null) {
+    JsonNode response = (JsonNode) Cache.get(cacheKey);
+    if (!useCache || response == null) {
       String url = String.format("http://www.getexchangerates.com/api/latest.json");
       play.Logger.debug("requesting " + url);
-      wsResponse = WS.url(url).get().get(10000l);
-      Cache.set(cacheKey, wsResponse, cacheTTL);
+      WS.Response wsResponse = WS.url(url).get().get(10000l);
+      response = wsResponse.asJson().get(0);
+      Cache.set(cacheKey, response, cacheTTL);
     }
-    return wsResponse;
+    return response;
   }
 
   private static BigDecimal withGetExchangeRates(final BigDecimal value, String from, String to) {
-    WS.Response wsResponse = getExchangeRates();
-
-    JsonNode jsonResponse  = wsResponse.asJson().get(0);
+    JsonNode jsonResponse  = getExchangeRates();
     if (jsonResponse == null) {
       Cache.remove(Source.GET_EXCHANGE_RATES.toString());
       throw new CommunicationErrorException();

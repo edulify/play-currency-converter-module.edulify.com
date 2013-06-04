@@ -6,7 +6,7 @@ Currently, the module is using the [Get Exchange Rates](http://www.getexchangera
 
 ## Configuring
 
-The first step is include the sitemapper in your dependencies list, in `Build.scala` file:
+The first step is include the currency converter in your dependencies list, in `Build.scala` file:
 
 ```
 import sbt._
@@ -23,12 +23,12 @@ object ApplicationBuild extends Build {
     javaCore,
     javaJdbc,
     javaEbean,
-    "com.edulify" % "currency-converter_2.10" % "1.1.2
+    "com.edulify" % "currency-converter_2.10" % "1.1.3
   )
 
   val main = play.Project(appName, appVersion, appDependencies).settings(
     // Add your own project settings here
-    resolvers += Resolver.url("sitemapper repository", url("http://blabluble.github.com/modules/releases/"))(Resolver.ivyStylePatterns)
+    resolvers += Resolver.url("currency converter repository", url("http://blabluble.github.com/modules/releases/"))(Resolver.ivyStylePatterns)
   )
 
 }
@@ -41,7 +41,7 @@ Don't forget to add the resolver to your list of resolvers, or it won't work!
 
 This module saves a cache of the request made for the service. The default cache time to live is 60 seconds, but this time can be changed using the method `setCacheTime(long seconds)`.
 
-Also, you can set cache off, by calling the method `useCache(false)`. **Wraning**: by setting off the cache, you can overload your system (and the service) due to multiple requests. Without cache activated, every call to Converter.convert will make a request to the choosen web service.
+Also, you can set cache off, by calling the method `useCache(false)`. **Warning**: by setting off the cache, you can overload your system (and the service) due to multiple requests. Without cache activated, every call to Converter.convert will make a request to the choosen web service.
 
 #### Caching auto-update job (optional)
 

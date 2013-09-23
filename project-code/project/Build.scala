@@ -5,11 +5,11 @@ import play.Project._
 object ApplicationBuild extends Build {
 
   val appName         = "currency-converter"
-  val appVersion      = "1.1.4"
+  val appVersion      = "1.1.5"
 
   val appDependencies = Seq(
     // Add your project dependencies here,
-    javaCore
+    javaCore, cache
   )
 
   val main = play.Project(appName, appVersion, appDependencies).settings(

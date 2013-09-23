@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import play.Play;
 import play.cache.Cache;
@@ -41,8 +41,6 @@ public class Converter {
     Converter.precision = precision;
   }
 
-
-
   public static BigDecimal convert(final BigDecimal value, String from, String to) {
     return convert(value, from, to, Source.GET_EXCHANGE_RATES);
   }
@@ -54,8 +52,6 @@ public class Converter {
 
     return null;
   }
-
-
 
   public static BigDecimal convert(final BigDecimal value, Currency from, Currency to) {
     return convert(value, from.getCurrencyCode(), to.getCurrencyCode());
@@ -96,8 +92,8 @@ public class Converter {
     BigDecimal fromRateBD = null;
     BigDecimal toRateBD   = null;
     try {
-      fromRateBD = new BigDecimal(fromRate.getTextValue().trim());
-      toRateBD   = new BigDecimal(toRate.getTextValue().trim());
+      fromRateBD = new BigDecimal(fromRate.asText().trim());
+      toRateBD   = new BigDecimal(toRate.asText().trim());
     } catch (NumberFormatException ex) {
       throw new CommunicationErrorException();
     }

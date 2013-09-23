@@ -1,6 +1,6 @@
 # play-currency-converter-module
 
-This is a play module for currency conversion.
+This is a play module for currency conversion. The current version (1.1.5) is compatible with play-2.2. For compatibility with play version 2.1.x use the module version 1.1.4.
 
 Currently, the module is using the [Get Exchange Rates](http://www.getexchangerates.com/) service to made the conversion.
 
@@ -23,7 +23,7 @@ object ApplicationBuild extends Build {
     javaCore,
     javaJdbc,
     javaEbean,
-    "com.edulify" % "currency-converter_2.10" % "1.1.4
+    "com.edulify" % "currency-converter_2.10" % "1.1.5
   )
 
   val main = play.Project(appName, appVersion, appDependencies).settings(

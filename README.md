@@ -23,12 +23,12 @@ object ApplicationBuild extends Build {
     javaCore,
     javaJdbc,
     javaEbean,
-    "com.edulify" % "currency-converter_2.10" % "1.1.5
+    "com.edulify" % "currency-converter_2.10" % "1.1.6
   )
 
   val main = play.Project(appName, appVersion, appDependencies).settings(
     // Add your own project settings here
-    resolvers += Resolver.url("currency converter repository", url("http://blabluble.github.com/modules/releases/"))(Resolver.ivyStylePatterns)
+    resolvers += Resolver.url("Edulify Repository", url("http://edulify.github.io/modules/releases/"))(Resolver.ivyStylePatterns)
   )
 
 }

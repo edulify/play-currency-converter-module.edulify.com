@@ -23,7 +23,7 @@ object ApplicationBuild extends Build {
     javaCore,
     javaJdbc,
     javaEbean,
-    "com.edulify" % "currency-converter_2.10" % "1.1.6
+    "com.edulify" % "currency-converter_2.10" % "1.1.6"
   )
 
   val main = play.Project(appName, appVersion, appDependencies).settings(

@@ -8,7 +8,7 @@ Currently, the module is using the [Get Exchange Rates](http://www.getexchangera
 
 The first step is include the currency converter in your dependencies list, in `Build.scala` file:
 
-```
+```scala
 import sbt._
 import Keys._
 import play.Project._
